@@ -1,16 +1,7 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Cocktail History</title>
-</head>
-<body>
-    <h1>User Cocktail History</h1>
-    <ul>
-        {% for cocktail in cocktail_history %}
-            <li>{{ cocktail }}</li>
-        {% endfor %}
-    </ul>
-</body>
-</html>
+{% extends "base.html" %}
+
+{% block content %}
+  <h1>Welcome to Cocktails Galore!</h1>
+  <p>Find delicious recipes by searching for ingredients or browse user favorites.</p>
+  <a href="/search">Search Recipes</a>
+{% endblock %}

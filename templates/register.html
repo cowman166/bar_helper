@@ -1,31 +1,30 @@
 <!DOCTYPE html>
-<html lang="en">
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Registration</title>
+<html>
+<head>
+  <title>Register</title>
 </head>
 <body>
-    <h1>User Registration</h1>
-    <form action="/register" method="post">
-        <label for="username">Username:</label><br>
-        <input type="text" id="username" name="username" required><br>
-        
-        <label for="email">Email:</label><br>
-        <input type="email" id="email" name="email" required><br>
-        
-        <label for="password">Password:</label><br>
-        <input type="password" id="password" name="password" required><br>
-        
-        <label for="screen_name">Screen Name:</label><br>
-        <input type="text" id="screen_name" name="screen_name" required><br>
-        
-        <label for="profile_pic">Profile Picture URL:</label><br>
-        <input type="text" id="profile_pic" name="profile_pic"><br>
-        
-        <label for="allergies">Allergies:</label><br>
-        <input type="text" id="allergies" name="allergies"><br>
-        
-        <input type="submit" value="Register">
-    </form>
+  <h1>Register</h1>
+  <form method="POST">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" required>
+    <br>
+    <label for="email">Email:</label>
+    <input type="email" name="email" id="email" required>
+    <br>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required>
+    <br>
+    <label for="screen_name">Screen Name:</label>
+    <input type="text" name="screen_name" id="screen_name" required>
+    <br>
+    <label for="profilepic">Profile Picture URL (optional):</label>
+    <input type="url" name="profilepic" id="profilepic">
+    <br>
+    <label for="allergies">Allergies (comma separated, optional):</label>
+    <input type="text" name="allergies" id="allergies">
+    <br>
+    <button type="submit">Register</button>
+  </form>
 </body>
 </html>

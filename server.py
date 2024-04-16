@@ -1,54 +1,34 @@
-from flask import Flask, request, render_template
-from flask_sqlalchemy import SQLAlchemy
+from flask import Flask, request, render_template, redirect, url_for, flash, session
+from flask_login import LoginManager, login_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
+from model import connect_to_db
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'sqlite:///site.db'
-db = SQLAlchemy(app)
 
-favorites = db.Table('favorites',
-    db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
-    db.Column('recipe_id', db.Integer, db.ForeignKey('recipe.id'), primary_key=True)
-)
+# favorites = db.Table('favorites',       #make into a table in model.py
+#     db.Column('user_id', db.Integer, db.ForeignKey('user.id'), primary_key=True),
+#     db.Column('recipe_id', db.Integer, db.ForeignKey('recipe.id'), primary_key=True)
+# )
 
-class User(db.Model):
-    id = db.Column(db.Integer, primary_key = True)
-    username = db.Column(db.String(50), unique = True, nullable = False)
-    email = db.Column(db.String(120), unique = True, nullable = False)
-    password = db.Column(db.String(128), nullable = False) 
-    screen_name = db.Column(db.String(50), nullable = False)
-    profile_pic = db.Column(db.String(100))
-    allergies = db.Column(db.String(255))
-    favorites = db.relationship('Recipe', secondary=favorites, lazy='subquery',
-                                backref=db.backref('users', lazy=True))
+# login_manager = LoginManager()
+# login_manager.init_app(app)
+#come back for research
 
-    def __repr__(self):
-        return f"User('{self.username}', '{self.email}', '{self.screen_name}')"
+# @login_manager.user_loader
+# def load_user(user_id):
+#     return User.query.get(int(user_id))
+app.secret_key = "dev" #make this secret tomoro with trew
+app.jinja_env.undefined = StrictUndefined
 
-class Recipe(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    description = db.Column(db.Text)
-    ingredients = db.relationship('Ingredient', backref='recipe', lazy=True)
-
-    def __repr__(self):
-        return f"Recipe('{self.name}')"
-
-class Ingredient(db.Model):
-    id = db.Column(db.Integer, primary_key=True)
-    name = db.Column(db.String(100), nullable=False)
-    quantity = db.Column(db.String(20))
-    recipe_id = db.Column(db.Integer, db.ForeignKey('recipe.id'), nullable=False)
-
-    def __repr__(self):
-        return f"Ingredient('{self.name}', '{self.quantity}')"
+@app.route('/')
+def index():
+    return redirect(url_for('search'))
 
 @app.route('/search', methods=['POST'])
 def search():
     ingredient1 = request.form['ingredient1']
     ingredient2 = request.form['ingredient2']
 
-    # Query recipes that contain both ingredients
     recipes = Recipe.query.join(Ingredient).filter(
         Ingredient.name == ingredient1).join(
         Ingredient, Recipe.id == Ingredient.recipe_id).filter(
@@ -57,16 +37,15 @@ def search():
     return render_template('recipes.html', recipes=recipes)
 
 @app.route('/favorite/<int:recipe_id>', methods=['POST'])
+@login_required
 def favorite(recipe_id):
-    user = User.query.get(1) 
-
     recipe = Recipe.query.get(recipe_id)
-    if recipe and user:
-        if recipe not in user.favorites:
-            user.favorites.append(recipe)
+    if recipe and current_user.is_authenticated:
+        if recipe not in current_user.favorites:
+            current_user.favorites.append(recipe)
             db.session.commit()
-
-    return 'Recipe favorited successfully!'
+            return 'Recipe favorited successfully!'
+    return 'You must be logged in to favorite recipes.'
 
 @app.route('/register', methods = ['POST'])
 def register():
@@ -78,34 +57,15 @@ def register():
     allergies = request.form['allergies', '']
 
     hashed_password = generate_password_hash(password)
-    new_user = User(username=username, email=email, password=hashed_password, 
-                    screen_name=screen_name, profile_pic=profile_pic, 
-                    allergies=allergies)
-    
-    db.session.add(new_user)
+
+    user = User(username=username, email=email, password=hashed_password, 
+                screen_name=screen_name, profile_pic=profile_pic, allergies=allergies)
+    db.session.add(user)
     db.session.commit()
-    return "User registered Successfully!"
 
-@app.route('/favorites')
-def favorites():
-    user = User.query.get(1) 
+    return 'Registration successful!'
 
-    return render_template('favorites.html', user=user)
 
-@app.route('/login', methods = ['POST'])
-def login():
-    username = request.form['username']
-    password = request.form['password']
-
-    user = User.query.filter_by(username=username).first()
-    if user and check_password_hash(user.password, password):
-        cocktail_history = get_cocktail_history(username)
-        return "Login Successful!"
-    else:
-        return "Invalid Username or Password"
-    
-def get_cocktail_history(username):
-    return ["Margarita", "Martini", "Cosmopolitan"]
-
-if __name__ == '__main__':
-    app.run(debug = True)
+if __name__ == "__main__":
+    connect_to_db(app)
+    app.run(host="0.0.0.0", debug=True)

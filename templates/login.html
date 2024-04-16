@@ -1,20 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>User Login</title>
+  <title>Login</title>
 </head>
 <body>
-    <h1>User Login</h1>
-    <form action="/login" method="post">
-        <label for="login_username">Username:</label><br>
-        <input type="text" id="login_username" name="username" required><br>
-        
-        <label for="login_password">Password:</label><br>
-        <input type="password" id="login_password" name="password" required><br>
-        
-        <input type="submit" value="Login">
-    </form>
+  <h1>Login</h1>
+  {% if current_user.is_authenticated %}
+    <p>You are already logged in as {{ current_user.username }}. <a href="/logout">Logout</a></p>
+  {% else %}
+  <form method="POST">
+    <label for="username">Username:</label>
+    <input type="text" name="username" id="username" required>
+    <br>
+    <label for="password">Password:</label>
+    <input type="password" name="password" id="password" required>
+    <br>
+    <button type="submit">Login</button>
+  </form>
+  {% endif %}
 </body>
 </html>

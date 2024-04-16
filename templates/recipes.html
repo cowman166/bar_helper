@@ -1,20 +1,25 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Search Results</title>
+  <title>Recipes</title>
 </head>
 <body>
-    <h1>Search Results</h1>
+  <h1>Recipes</h1>
+  {% if recipes %}
     <ul>
-        {% for recipe in recipes %}
-            <li>{{ recipe.name }}</li>
-            <p>{{ recipe.description }}</p>
-            <form action="/favorite/{{ recipe.id }}" method="post">
-                <button type="submit">Favorite</button>
-            </form>
-        {% endfor %}
+      {% for recipe in recipes %}
+        <li>
+          <a href="#">{{ recipe.name }}</a>
+          {% if current_user.is_authenticated %}
+          <form action="/favorite/{{ recipe.id }}" method="POST" style="display: inline;">
+            <button type="submit">Favorite</button>
+          </form>
+          {% endif %}
+        </li>
+      {% endfor %}
     </ul>
+  {% else %}
+    <p>No recipes found.</p>
+  {% endif %}
 </body>
 </html>

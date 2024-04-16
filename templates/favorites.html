@@ -1,17 +1,22 @@
 <!DOCTYPE html>
-<html lang="en">
+<html>
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Favorites</title>
+  <title>Favorites</title>
 </head>
 <body>
-    <h1>Favorites</h1>
-    <ul>
-        {% for recipe in user.favorites %}
-            <li>{{ recipe.name }}</li>
-            <p>{{ recipe.description }}</p>
+  <h1>Favorite Recipes</h1>
+  {% if current_user.is_authenticated %}
+    {% if current_user.favorites %}
+      <ul>
+        {% for recipe in current_user.favorites %}
+          <li><a href="#">{{ recipe.name }}</a></li>
         {% endfor %}
-    </ul>
+      </ul>
+    {% else %}
+      <p>You have no favorited recipes.</p>
+    {% endif %}
+  {% else %}
+    <p>You must be logged in to view your favorites.</p>
+  {% endif %}
 </body>
 </html>
