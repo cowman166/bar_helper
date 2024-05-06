@@ -5,7 +5,7 @@
 </head>
 <body>
   <h1>Register</h1>
-  <form method="POST">
+  <form method="POST" action="/register">
     <label for="username">Username:</label>
     <input type="text" name="username" id="username" required>
     <br>
@@ -15,14 +15,14 @@
     <label for="password">Password:</label>
     <input type="password" name="password" id="password" required>
     <br>
-    <label for="screen_name">Screen Name:</label>
-    <input type="text" name="screen_name" id="screen_name" required>
-    <br>
     <label for="profilepic">Profile Picture URL (optional):</label>
     <input type="url" name="profilepic" id="profilepic">
     <br>
-    <label for="allergies">Allergies (comma separated, optional):</label>
-    <input type="text" name="allergies" id="allergies">
+    <select name="allergies" id="allergies" multiple>
+      {% for allergy in all_allergies %}
+        <option value="{{ allergy }}">{{ allergy }}</option>
+      {% endfor %}
+    </select>
     <br>
     <button type="submit">Register</button>
   </form>
