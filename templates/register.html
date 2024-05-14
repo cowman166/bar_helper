@@ -2,8 +2,9 @@
 <html>
 <head>
   <title>Register</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
-<body>
+<body class="register">
   <h1>Register</h1>
   <form method="POST" action="/register">
     <label for="username">Username:</label>
@@ -15,9 +16,7 @@
     <label for="password">Password:</label>
     <input type="password" name="password" id="password" required>
     <br>
-    <label for="profilepic">Profile Picture URL (optional):</label>
-    <input type="url" name="profilepic" id="profilepic">
-    <br>
+    <label for="allergies">Allergies<br>(to select more than one press Command)</label>
     <select name="allergies" id="allergies" multiple>
       {% for allergy in all_allergies %}
         <option value="{{ allergy }}">{{ allergy }}</option>

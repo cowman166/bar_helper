@@ -4,16 +4,31 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Recipes</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-    <h1>Search Results</h1>
-    <ul>
+    <div class="Search"><h1>Search Results</h1></div>
+    <div class="flexfix">
         {% for recipe in recipes %}
-            <h2>{{ recipe.name }}</h2>
-            <li>{{ recipe.description }}</li>
-            <li>{{ recipe.ingredients }}</li>
-            <li>{{ recipe.served }}</li>
+            
+                <div class="card-container">
+                    <div class="card">
+                        <img src="{{ recipe.pic }}">
+                        <div class = "card_content">
+                            <h2>{{ recipe.name }}</h2>
+                            <p>{{ recipe.description }}</p>
+                            <p>{{ recipe.ingredients }}</p>
+                            <p>{{ recipe.served }}</p>
+                            <div class="fav"></div>
+                            <form action="{{ url_for('favorite', recipe_id=recipe.id) }}" method="POST">
+                                <button type="submit">Fav</button>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+
         {% endfor %}
-    </ul>
+    </div>
+    
 </body>
 </html>

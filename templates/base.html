@@ -1,26 +1,67 @@
 <!DOCTYPE html>
 <html>
-<head>
+<head><!-- Bootstrap CSS -->
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
   <title>Cocktails Galore</title>
   <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
-  <header>
-    <h1><a href="/">Cocktails Galore</a></h1>
 
-      <p><a href="/logout">Logout</a></p>
-      <a href="/login">Login</a>
-      <a href="/register_user">Register</a>
-  </header>
+    <div class= title><h1><a href="/">Cocktails Galore</a></h1></div>
+    <div class="navbar">
+      <ul>
+      <li><a href="/login">LOGIN</a></li>
+      <li><a href="/register_user">REGISTER</a></li>
+      <li><a href="/logout">LOGOUT</a></li>
+      <li><a href="/profile">PROFILE</a></li>
+      </ul>
+
   <main>
     {% for msg in get_flashed_messages() %}
     <p class="flash-msg">
       {{ msg }}
     </p>
     {% endfor %}
-    {% block content %}{% endblock %}
+    
+    {% block content %}
+    {% endblock %}
+    <div class = "cocktails">
+      <div class = "images">
+        <img src="https://www.liquor.com/thmb/WfWXl212HDQhTHJX_LphwlZFX4c=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/LQR-tomcollins-original-4000x4000-680e282529a34b30ac4b8ed495168109.jpg">
+        <img src="https://www.liquor.com/thmb/kFrJbCbUu4u7osm9_JdR6BMNa3M=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/sidecar-720x720-primary-f22b3d2c1642473e9305a487c1a8edd2.jpg">
+        <img src="https://www.liquor.com/thmb/m5fY-b1zxLMq6NffksIK4uqT8D4=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Singapore_Sling_3000x3000_primary-5fd9e3d361204753919604d123ca23f2.jpg">
+        <img src="https://assets.bonappetit.com/photos/650df690c94ec4218673b45a/1:1/w_2560%2Cc_limit/20230915-WEB-SEO-0882_update%2520copy.jpg">
+        <img src="https://www.liquor.com/thmb/rxbQEXR-CQpExjfS8xtOAWXLovM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/bourbon-old-fashioned-4000x4000-primary-ig-f0ce04bec6754db187ab1e8a16fd45c3.jpg">
+        <img src="https://www.liquor.com/thmb/Oa3KjaP_udh0TYQO9ckm0dPS5PA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/whiskey-sour-1500x1500-hero-c9df509bb1d141f1a8424051c3d78445.jpg">
+        <img src="https://www.liquor.com/thmb/MJRVqf-itJGY90nwUOYGXnyG-HA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/mojito-720x720-primary-6a57f80e200c412e9a77a1687f312ff7.jpg">
+        <img src="https://downshiftology.com/wp-content/uploads/2019/05/Margarita-main-500x375.jpg">
+        <img src="https://www.liquor.com/thmb/-aM2_K1SizSThZsy6AkQFZkL58U=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/negroni-720x720-primary-535dee7b50914af1810b1927b69dbe46.jpg">
+        <img src="https://imbibemagazine.com/wp-content/uploads/2024/04/violetsloefizz-crdt-lesleywolfe.jpg">
+        <img src="https://www.liquor.com/thmb/cgPvWUC4HU7GgnWWObhmGNQL1bs=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/paloma-1500x1500-hero-46383ed066d2400a8ddd7543261f36c2.jpg">
+        <img src="https://www.liquor.com/thmb/0yAgdfbu0NMeJ5OOT720kH3rMKc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/dry-martini-1500x1500-hero-b0e9fa9cb79440879d487bec87d72a2d.jpg">
+        <img src="https://www.liquor.com/thmb/QjIyRSNkJhajy4FJOWMmae7vQ-M=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/jungle-bird-720x720-primary-549e0765f87e412488cf864e012e2e25.jpg">
+        <img src="https://www.liquor.com/thmb/ffYicPLJk00SWKg2shV67TPHV74=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Daiquiri_3000x3000_primary-206eb2330cb04852ab7d780dcf3d55ef.jpg">
+        <img src="https://www.liquor.com/thmb/DR2UAsRlu-YCVn9r_iLJCmOvzlg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/manhattan-4000x4000-primary-ig-9c3d894510284e9d8fbd9c518d00790b.jpg">
+        <img src="https://www.liquor.com/thmb/WfWXl212HDQhTHJX_LphwlZFX4c=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/LQR-tomcollins-original-4000x4000-680e282529a34b30ac4b8ed495168109.jpg">
+        <img src="https://www.liquor.com/thmb/kFrJbCbUu4u7osm9_JdR6BMNa3M=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/sidecar-720x720-primary-f22b3d2c1642473e9305a487c1a8edd2.jpg">
+        <img src="https://www.liquor.com/thmb/m5fY-b1zxLMq6NffksIK4uqT8D4=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Singapore_Sling_3000x3000_primary-5fd9e3d361204753919604d123ca23f2.jpg">
+        <img src="https://assets.bonappetit.com/photos/650df690c94ec4218673b45a/1:1/w_2560%2Cc_limit/20230915-WEB-SEO-0882_update%2520copy.jpg">
+        <img src="https://www.liquor.com/thmb/rxbQEXR-CQpExjfS8xtOAWXLovM=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/bourbon-old-fashioned-4000x4000-primary-ig-f0ce04bec6754db187ab1e8a16fd45c3.jpg">
+        <img src="https://www.liquor.com/thmb/Oa3KjaP_udh0TYQO9ckm0dPS5PA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/whiskey-sour-1500x1500-hero-c9df509bb1d141f1a8424051c3d78445.jpg">
+        <img src="https://www.liquor.com/thmb/MJRVqf-itJGY90nwUOYGXnyG-HA=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/mojito-720x720-primary-6a57f80e200c412e9a77a1687f312ff7.jpg">
+        <img src="https://downshiftology.com/wp-content/uploads/2019/05/Margarita-main-500x375.jpg">
+        <img src="https://www.liquor.com/thmb/-aM2_K1SizSThZsy6AkQFZkL58U=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/negroni-720x720-primary-535dee7b50914af1810b1927b69dbe46.jpg">
+        <img src="https://imbibemagazine.com/wp-content/uploads/2024/04/violetsloefizz-crdt-lesleywolfe.jpg">
+        <img src="https://www.liquor.com/thmb/cgPvWUC4HU7GgnWWObhmGNQL1bs=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/paloma-1500x1500-hero-46383ed066d2400a8ddd7543261f36c2.jpg">
+        <img src="https://www.liquor.com/thmb/0yAgdfbu0NMeJ5OOT720kH3rMKc=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/dry-martini-1500x1500-hero-b0e9fa9cb79440879d487bec87d72a2d.jpg">
+        <img src="https://www.liquor.com/thmb/QjIyRSNkJhajy4FJOWMmae7vQ-M=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/jungle-bird-720x720-primary-549e0765f87e412488cf864e012e2e25.jpg">
+        <img src="https://www.liquor.com/thmb/ffYicPLJk00SWKg2shV67TPHV74=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/Daiquiri_3000x3000_primary-206eb2330cb04852ab7d780dcf3d55ef.jpg">
+        <img src="https://www.liquor.com/thmb/DR2UAsRlu-YCVn9r_iLJCmOvzlg=/1500x0/filters:no_upscale():max_bytes(150000):strip_icc()/manhattan-4000x4000-primary-ig-9c3d894510284e9d8fbd9c518d00790b.jpg">
+      </div>
+    </div>
   </main>
   <footer>
     </footer>
-</body>
+
+  </body>
 </html>

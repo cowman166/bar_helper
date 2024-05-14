@@ -1,5 +1,5 @@
-from flask import Flask, request, render_template, redirect, url_for, flash, session
-from flask_login import LoginManager, login_user, current_user, login_required
+from flask import Flask, request, render_template, redirect, url_for, flash, session, request
+#from flask_login import LoginManager, login_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from model import connect_to_db, db, Recipe, Ingredient, User, Allergy
 import os
@@ -34,15 +34,29 @@ def search():
 
     return render_template('recipes.html', recipes=filtered_recipe)
 
+@app.route('/profile')
+def profile():
+    user = User.query.filter_by(username=session.get("user_username")).first()
+    favorite_cocktails = user.get_favorite_cocktails()
+    return render_template('profile.html', user=user, favorite_cocktails=favorite_cocktails)
+
+
 @app.route('/favorite/<int:recipe_id>', methods=['POST'])
-@login_required
 def favorite(recipe_id):
-    recipe = Recipe.query.get(recipe_id)
-    if recipe and current_user.is_authenticated:
-        if recipe not in current_user.favorites:
-            current_user.favorites.append(recipe)
-            db.session.commit()
-            return 'Recipe favorited successfully!'
+    if request.method == 'POST':
+        recipe = Recipe.query.get(recipe_id)
+        username = session.get("user_username")
+        if recipe and username:
+            current_boi = User.query.filter(User.username==session["user_username"]).first()    
+            if recipe not in current_boi.favorites:
+                current_boi.add_to_favorites(recipe)
+                db.session.add(current_boi)
+                db.session.commit()
+                flash('Recipe favorited successfully!')
+            else:
+                flash('Recipe is already in favorites!')
+        else:
+            flash('Failed to favorite recipe. Please try again.')
     return redirect("/")
 
 @app.route("/login", methods=["POST"])
@@ -52,8 +66,9 @@ def process_login():
     username = request.form.get("username")
     password = request.form.get("password")
 
-    user = User.get_by_username(username)
-    if not user or user.password != password:
+    user=User.query.filter(User.username==username).first()
+    is_correct_pass=check_password_hash(user.password, password)
+    if not user or not is_correct_pass:
         flash("The email or password you entered was incorrect.")
     else:
         # Log in user by storing the user's email in session
@@ -69,7 +84,7 @@ def login():
 
 @app.route("/register_user")
 def register_user():
-    all_allergies = [allergy.ingredient_name for allergy in Allergy.query.all()]
+    all_allergies = [allergy.name for allergy in Ingredient.query.all()]
     return render_template("register.html", all_allergies=all_allergies)
 
 @app.route('/register', methods = ['POST'])
