@@ -1,4 +1,4 @@
-from flask import Flask, request, render_template, redirect, url_for, flash, session, request
+from flask import Flask, request, render_template, redirect, url_for, flash, session, request, jsonify
 #from flask_login import LoginManager, login_user, current_user, login_required
 from werkzeug.security import generate_password_hash, check_password_hash
 from model import connect_to_db, db, Recipe, Ingredient, User, Allergy
@@ -40,6 +40,19 @@ def profile():
     favorite_cocktails = user.get_favorite_cocktails()
     return render_template('profile.html', user=user, favorite_cocktails=favorite_cocktails)
 
+@app.route('/newusername', methods=['POST'])
+def newusername():
+    user=User.query.filter(User.username==session["user_username"]).first()
+    newusername = request.json.get('username')
+    #update user object
+    user.username = newusername
+    #commit that change to db
+    db.session.commit()
+    #update name in session object
+    session["user_username"]=newusername
+    #print the user object to check
+    print(user.username)
+    return jsonify({'msg': "username successfully updated", 'newusername':newusername})
 
 @app.route('/favorite/<int:recipe_id>', methods=['POST'])
 def favorite(recipe_id):
